@@ -4,12 +4,9 @@ public:
     {
         int m = image.size();
         int n = image[0].size();
-        if(i<0 || j<0 || i>=m || j>=n)
+        if(i<0 || j<0 || i>=m || j>=n ||image[i][j] == color || image[i][j]!=oldColor)
             return;
-        if(image[i][j] == color)
-            return;
-        if(image[i][j]!=oldColor)
-            return;
+        
         
         image[i][j] = color;
         dfs(oldColor,i+1,j,image,color);
