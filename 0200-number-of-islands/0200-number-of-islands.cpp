@@ -9,6 +9,7 @@ public:
     }
     void bfs(int row,int col,vector<vector<int>> &vis,vector<vector<char>>& grid)
     {
+        vector<pair<int,int>> dir = {{1,0},{-1,0},{0,1},{0,-1}};
         int n = grid.size();
         int m = grid[0].size();
         vis[row][col] = 1;
@@ -16,25 +17,23 @@ public:
          q.push({row,col});
         while(!q.empty())
         {
-            int row = q.front().first;
-            int col = q.front().second;
+            auto top = q.front();
             
             q.pop();
             
-            for(int delRow = -1;delRow<=1;delRow++)
+            for(auto it:dir)
             {
-                for(int delCol=-1;delCol<=1;delCol++)
-                {
-                     if(abs(delRow)==abs(delCol)){continue;} //for ignoring diagonal 
-                    int nRow = row+delRow;
-                    int nCol = col+delCol;
+            
+                     // if(abs(delRow)==abs(delCol)){continue;} //for ignoring diagonal 
+                    int nRow = top.first + it.first;
+                    int nCol = top.second + it.second;
 if(isValid(nRow,nCol,n,m) && grid[nRow][nCol] == '1' && !vis[nRow][nCol])
 {
     vis[nRow][nCol] = 1;
     q.push({nRow,nCol});
 }
-                }
             }
+                
         }
     }
     int numIslands(vector<vector<char>>& grid) {
