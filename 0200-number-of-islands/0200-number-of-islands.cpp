@@ -1,5 +1,12 @@
 class Solution {
 public:
+    bool isValid(int i,int j,int n,int m)
+    {
+        if(i<0 || j<0 || i>=n || j>=m)
+            return 0;
+        else
+            return 1;
+    }
     void bfs(int row,int col,vector<vector<int>> &vis,vector<vector<char>>& grid)
     {
         int n = grid.size();
@@ -21,7 +28,7 @@ public:
                      if(abs(delRow)==abs(delCol)){continue;} //for ignoring diagonal 
                     int nRow = row+delRow;
                     int nCol = col+delCol;
-if(nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && grid[nRow][nCol] == '1' && !vis[nRow][nCol])
+if(isValid(nRow,nCol,n,m) && grid[nRow][nCol] == '1' && !vis[nRow][nCol])
 {
     vis[nRow][nCol] = 1;
     q.push({nRow,nCol});
