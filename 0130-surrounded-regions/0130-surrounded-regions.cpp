@@ -4,7 +4,7 @@ public:
     {
         int m = board.size();
         int n = board[0].size();
-        if(row<0 || row>=m || col<0 || col>=n || board[row][col] != 'O' || vis[row][col]==1)
+        if(row<0 || row>=m || col<0 || col>=n || board[row][col]!='O' || vis[row][col] == 1)
             return;
         
         vis[row][col] = 1;
