@@ -42,7 +42,7 @@ class Solution
 	            int newRow = row+it.first;
 	            int newCol = col+it.second;
 	            
-	            if(newRow>=0 && newRow<m && newCol>=0 && newCol<n && !vis[newRow][newCol])
+	            if(newRow>=0 && newRow<m && newCol>=0 && newCol<n && !vis[newRow][newCol] && grid[newRow][newCol] == 0)
 	            {
 	                vis[newRow][newCol] = 1;
 	                q.push({{newRow,newCol},steps+1});
