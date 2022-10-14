@@ -9,34 +9,23 @@ using namespace std;
 
 class Solution {
   public:
-    void bfs(int row,int col,vector<pair<int,int>> &vec,vector<vector<int>> &vis,vector<vector<int>>& grid,int row0,int col0)
+    void dfs(int row,int col,vector<pair<int,int>> &vec,vector<vector<int>> &vis,vector<vector<int>>& grid,int row0,int col0)
     {
         int m = grid.size();
         int n = grid[0].size();
-        vector<pair<int,int>> dir = {{1,0},{-1,0},{0,1},{0,-1}};
+        
+         if(row<0 || row>= m || col<0 || col>=n || vis[row][col] == 1 || grid[row][col]!=1)
+        return;
+        
         vis[row][col] = 1;
         vec.push_back({row-row0,col-col0});
+       
         
-        queue<pair<int,int>> q;
-        q.push({row,col});
-        
-        while(!q.empty())
-        {
-            auto top = q.front();
-            q.pop();
-            
-            for(auto it:dir)
-            {
-                int nrow = top.first+it.first;
-                int ncol = top.second+it.second;
-                if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && grid[nrow][ncol] == 1 && !vis[nrow][ncol])
-                {
-                    vec.push_back({nrow-row0,ncol-col0});
-                    vis[nrow][ncol] = 1;
-                    q.push({nrow,ncol});
-                }
-            }
-        }
+         dfs(row+1,col,vec,vis,grid,row0,col0);
+         dfs(row,col+1,vec,vis,grid,row0,col0);
+         dfs(row-1,col,vec,vis,grid,row0,col0);
+         dfs(row,col-1,vec,vis,grid,row0,col0);
+    
     }
     int countDistinctIslands(vector<vector<int>>& grid) {
         int m = grid.size();
@@ -53,7 +42,7 @@ class Solution {
                 if(!vis[i][j] && grid[i][j] == 1)
                 {
                     vector<pair<int,int>> vec;
-                    bfs(i,j,vec,vis,grid,i,j);
+                    dfs(i,j,vec,vis,grid,i,j);
                     st.insert(vec);
                 }
             }
