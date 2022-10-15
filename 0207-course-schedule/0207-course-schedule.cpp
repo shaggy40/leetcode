@@ -1,5 +1,23 @@
 class Solution {
 public:
+    bool dfs(int node,vector<int> &vis,vector<int> &pathV, vector<int> adj[])
+    {
+        vis[node]= 1;
+        pathV[node] = 1;
+        
+        for(auto it:adj[node])
+        {
+            if(!vis[it])
+            {
+                if(dfs(it,vis,pathV,adj) == true)
+                    return true;
+            }
+            else if(vis[it] == 1 && pathV[it] == 1)
+                return true;
+        }
+        pathV[node] = 0;
+        return false;
+    }
     bool canFinish(int n, vector<vector<int>>& p) {
         
         vector<int> adj[n];
@@ -9,35 +27,17 @@ public:
             adj[it[0]].push_back(it[1]);
         }
         
-        queue<int> q;
-        vector<int> ans;
-        vector<int> in(n,0);
-        for(int i=0;i<n;i++)
-        {
-            for(auto it:adj[i])
-            in[it]++;
-        }
+        vector<int> vis(n,0);
+        vector<int> pathV(n,0);
         
         for(int i=0;i<n;i++)
         {
-            if(in[i] == 0)
-                q.push(i);
-        }
-        
-        while(!q.empty())
-        {
-            int node = q.front();
-            q.pop();
-            ans.push_back(node);
-            
-            for(auto it: adj[node])
+            if(!vis[i])
             {
-                in[it]--;
-                if(in[it] == 0)
-                    q.push(it);
+                if(dfs(i,vis,pathV,adj) == true)
+                    return false;
             }
         }
-        
-        return ans.size() == n;
+        return true;
     }
 };
