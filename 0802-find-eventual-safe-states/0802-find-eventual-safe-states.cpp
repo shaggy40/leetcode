@@ -1,53 +1,45 @@
 class Solution {
 public:
-    bool dfs(int node,vector<int> &vis,vector<int> &pathV,vector<vector<int>>& graph,vector<int> &check)
-    {
-        vis[node] = 1;
-        pathV[node] = 1;
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<vector<int>> adj(n);
+        vector<int> indegree(n,0);
+        int i=0;
         
-        for(auto it:graph[node])
+        
+        for(auto g : graph) {
+		for(auto it : g) {
+			adj[it].push_back(i);
+			indegree[i]++;
+		}
+		i++;
+	}
+        
+        queue<int> q;
+        for(int i=0;i<n;i++)
         {
-            if(!vis[it])
+            if(indegree[i] == 0)
+                q.push(i);
+        }
+        
+        
+        vector<int> ans;
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            
+            for(auto it:adj[node])
             {
-                if(dfs(it,vis,pathV,graph,check) == true)
-                {
-                    check[it] = 0;
-                    return true;
-                }
-            }
-            else if(vis[it] == 1 && pathV[it] == 1)
-            {
-                check[it] = 0;
-                return true;
+                indegree[it]--;
+                if(indegree[it] == 0)
+                    q.push(it);
             }
             
         }
         
-        check[node] = 1;
-        pathV[node] = 0;
-        
-        return false;
-    }
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        
-         vector<int> ans;
-        int V = graph.size();
-        vector<int> vis(V,0);
-        vector<int> pathV(V,0);
-        vector<int> check(V,0);
-        for(int i=0;i<V;i++)
-        {
-            if(!vis[i])
-            {
-                dfs(i,vis,pathV,graph,check);
-            }
-        }
-        
-        for(int i=0;i<V;i++)
-        {
-            if(check[i] == 1)
-            ans.push_back(i);
-        }
+        sort(ans.begin(),ans.end());
         
         return ans;
     }
