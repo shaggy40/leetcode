@@ -1,43 +1,47 @@
 class Solution {
 public:
-    bool dfs(int node,vector<int> &vis,vector<int> &pathV, vector<int> adj[])
-    {
-        vis[node]= 1;
-        pathV[node] = 1;
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         
-        for(auto it:adj[node])
-        {
-            if(!vis[it])
-            {
-                if(dfs(it,vis,pathV,adj) == true)
-                    return true;
-            }
-            else if(vis[it] == 1 && pathV[it] == 1)
-                return true;
-        }
-        pathV[node] = 0;
-        return false;
-    }
-    bool canFinish(int n, vector<vector<int>>& p) {
-        
-        vector<int> adj[n];
-        
-        for(auto it:p)
-        {
-            adj[it[0]].push_back(it[1]);
+        vector<int> adj[numCourses];
+        for(auto it: prerequisites){
+            adj[it[1]].push_back(it[0]);
         }
         
-        vector<int> vis(n,0);
-        vector<int> pathV(n,0);
+        vector<int> topoSort;
         
-        for(int i=0;i<n;i++)
+        vector<int> inDegree(numCourses,0);
+        
+        for(int i=0;i<numCourses;i++)
         {
-            if(!vis[i])
+            for(auto it:adj[i])
             {
-                if(dfs(i,vis,pathV,adj) == true)
-                    return false;
+                inDegree[it]++;
             }
         }
-        return true;
+        
+    queue<int> q;
+        
+        for(int i=0;i<numCourses;i++)
+        {
+            if(inDegree[i] == 0)
+                q.push(i);
+        }
+        
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            
+            topoSort.push_back(node);
+            
+            for(auto it:adj[node])
+            {
+                inDegree[it]--;
+                if(inDegree[it] == 0)
+                    q.push(it);
+            }
+        }
+        
+        return numCourses == topoSort.size();
     }
 };
