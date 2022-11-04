@@ -8,30 +8,52 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
-    int solve(int ind,int W,int wt[],int val[],vector<vector<int>> &dp)
-    {
-        if(ind == 0)
-        {
-            if(wt[ind]<=W)return val[ind];
-            else
-            return 0;
-        }
+    // int solve(int ind,int W,int wt[],int val[],vector<vector<int>> &dp)
+    // {
+    //     if(ind == 0)
+    //     {
+    //         if(wt[ind]<=W)return val[ind];
+    //         else
+    //         return 0;
+    //     }
         
-        if(dp[ind][W] != -1)return dp[ind][W];
+    //     if(dp[ind][W] != -1)return dp[ind][W];
     
-        int ntake = 0+solve(ind-1,W,wt,val,dp);
-        int take = -1e9;
-        if(wt[ind]<=W)
-        {
-           take = val[ind] + solve(ind-1,W-wt[ind],wt,val,dp);
-        }
+    //     int ntake = 0+solve(ind-1,W,wt,val,dp);
+    //     int take = -1e9;
+    //     if(wt[ind]<=W)
+    //     {
+    //       take = val[ind] + solve(ind-1,W-wt[ind],wt,val,dp);
+    //     }
         
-        return dp[ind][W] = max(take,ntake);
-    }
+    //     return dp[ind][W] = max(take,ntake);
+    // }
     int knapSack(int W, int wt[], int val[], int n) 
     { 
     vector<vector<int>> dp(n,vector<int>(W+1,-1));
-       return solve(n-1,W,wt,val,dp);
+      for(int i=0;i<=W;i++)
+      {
+          if(wt[0]<=i)dp[0][i] = val[0];
+            else
+            dp[0][i] = 0;
+          
+      }
+      
+      for(int ind =1 ;ind<n;ind++)
+      {
+          for(int w = 0;w<=W;w++)
+          {
+        int ntake = 0+dp[ind-1][w];
+        int take = -1e9;
+        if(wt[ind]<=w)
+        {
+           take = val[ind] + dp[ind-1][w-wt[ind]];
+        }
+        dp[ind][w] = max(take,ntake);
+          }
+      }
+      
+      return dp[n-1][W];
     }
 };
 
