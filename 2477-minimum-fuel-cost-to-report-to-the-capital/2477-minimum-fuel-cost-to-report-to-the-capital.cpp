@@ -3,8 +3,8 @@ public:
     long long ans = 0;
 	
 	// Return total no.of children of the current node including itself
-    long long DFS(int src, int seats, vector<bool> &visited, vector<vector<int>> &graph){
-        visited[src] = true;
+    long long DFS(int src, int seats, vector<int> &visited, vector<vector<int>> &graph){
+        visited[src] = 1;
         long long count = 1;
         for(auto adj: graph[src]){
             if(visited[adj]){
@@ -36,8 +36,8 @@ public:
             graph[it[1]].push_back(it[0]);
         }
         
-        vector<bool> visited(n+1, false);
-        visited[0] = true;
+        vector<int> visited(n+1, 0);
+        visited[0] = 1;
         
         // Call DFS for each children of capital node
         for(auto it: graph[0]){
