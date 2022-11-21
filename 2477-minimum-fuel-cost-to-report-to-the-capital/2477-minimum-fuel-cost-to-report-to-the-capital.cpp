@@ -10,7 +10,6 @@ public:
             if(!visited[adj]){
                 count += DFS(adj, seats, visited, graph);
             }
-            
         }
         
         // If people less than seats, then one car is enough
