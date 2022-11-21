@@ -7,10 +7,10 @@ public:
         visited[src] = 1;
         long long count = 1;
         for(auto adj: graph[src]){
-            if(visited[adj]){
-                continue;
+            if(!visited[adj]){
+                count += DFS(adj, seats, visited, graph);
             }
-            count += DFS(adj, seats, visited, graph);
+            
         }
         
         // If people less than seats, then one car is enough
