@@ -7,7 +7,7 @@ public:
           return 0;
         
         if(i>=n || sum<0)
-             return INT_MAX - 1000;
+             return INT_MAX-10000;
         
          if(dp[i][sum] != -1)
         {
